@@ -1,12 +1,42 @@
 [
     {
-        "perguntas": "Qual é a capital do Brasil?",
-        "alternativas": ["Rio de Janeiro", "São Paulo", "Brasília", "Belo Horizonte"],
+        "perguntas": "Qual é o planeta mais próximo do Sol?",
+        "alternativas": ["Vênus", "Terra", "Mercúrio", "Marte"],
         "resposta": 2
     },
     {
-        "perguntas": "Qual é a maior montanha do mundo?",
-        "alternativas": ["Everest", "K2", "Makalu", "Annapurna"],
-        "resposta": 0
+        "perguntas": "Qual é o processo pelo qual as plantas produzem energia a partir da luz solar?",
+        "alternativas": ["Respiração", "Fotossíntese", "Fermentação", "Osmose"],
+        "resposta": 1
+    },
+    {
+        "perguntas": "Qual é o nome do cientista que formulou a teoria da relatividade?",
+        "alternativas": ["Isaac Newton", "Galileo Galilei", "Albert Einstein", "Niels Bohr"],
+        "resposta": 2
+    },
+    {
+        "perguntas": "Qual é o gás mais abundante na atmosfera da Terra?",
+        "alternativas": ["Oxigênio", "Hidrogênio", "Nitrogênio", "Dióxido de carbono"],
+        "resposta": 2
+    },
+    {
+        "perguntas": "Qual é a velocidade da luz no vácuo?",
+        "alternativas": ["150,000 km/s", "300,000 km/s", "450,000 km/s", "600,000 km/s"],
+        "resposta": 1
+    },
+    {
+        "perguntas": "Qual é a fórmula química do sal de cozinha (cloreto de sódio)?",
+        "alternativas": ["Na2CO3", "KCl", "CaCO3", "NaCl"],
+        "resposta": 3
+    },
+    {
+        "perguntas": "Qual é o metal líquido à temperatura ambiente?",
+        "alternativas": ["Chumbo", "Mercúrio", "Cobre", "Alumínio"],
+        "resposta": 1
+    },
+    {
+        "perguntas": "Qual é o principal objetivo científico do James Webb",
+        "alternativas": ["Observar planetas do sistema solar", "Investigar buracos negros supermassivos", "Monitorar asteroides próximos à Terra", "Estudar a formação das primeiras galáxias"],
+        "resposta": 3
     }
 ]
