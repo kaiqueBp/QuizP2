@@ -1,0 +1,12 @@
+[
+    {
+        "perguntas": "Qual é a capital do Brasil?",
+        "alternativas": ["Rio de Janeiro", "São Paulo", "Brasília", "Belo Horizonte"],
+        "resposta": 2
+    },
+    {
+        "perguntas": "Qual é a maior montanha do mundo?",
+        "alternativas": ["Everest", "K2", "Makalu", "Annapurna"],
+        "resposta": 0
+    }
+]
