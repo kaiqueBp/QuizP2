@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messagesDiv.appendChild(mensagemResposta);
             setTimeout(() => {
                 messagesDiv.removeChild(mensagemResposta);
-                sendNextQuestionRequest();
+                novaPergunta();
             }, 2000);
         } else if (message.pontuacao !== undefined) {
             pontuacao = message.pontuacao;
