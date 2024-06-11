@@ -14,14 +14,14 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../views/index.html'));
 });
 
-let clientScores = {};
+let clientePontuacao = {};
 
 wss.on('connection', (ws) => {
-    const clientId = Math.floor(Math.random() * 1000000); 
-    clientScores[clientId] = { pontuacao: 0 };
+    const clientId = Math.floor(Math.random() * 1000000);
+    clientePontuacao[clientId] = { pontuacao: 0 };
 
     console.log(`Cliente ${clientId} conectado`);
-    ws.send(JSON.stringify({ message: 'Bem-vindo ao servidor do Kaique' }));
+    ws.send(JSON.stringify({ userId: clientId }));
 
     let perguntas = null;
     let resposta = null;
@@ -32,12 +32,12 @@ wss.on('connection', (ws) => {
             console.error('Erro ao ler o arquivo JSON:', err);
             return;
         }
-        ws.send(JSON.stringify({ userId: clientId }));
         perguntas = JSON.parse(data);
-        sendRandomQuestion();
+        ws.send(JSON.stringify({ totalPerguntas: perguntas.length }));
+        enviarPergunta();
     });
 
-    function sendRandomQuestion() {
+    function enviarPergunta() {
         if (historico.size === perguntas.length) {
             ws.send(JSON.stringify({ perguntas: 'Parabéns! Você respondeu todas as perguntas.', alternativas: [] }));
             return;
@@ -58,32 +58,30 @@ wss.on('connection', (ws) => {
         const respostaClient = JSON.parse(message);
         if (respostaClient.index !== undefined) {
             const client = respostaClient.index;
-            let correcao;
-            const correctIndex = resposta.resposta; 
+            const correctIndex = resposta.resposta;
+
             if (resposta && correctIndex === client) {
-                correcao = 'Resposta correta! :)';
-                clientScores[clientId].pontuacao++;
-            } else {
-                correcao = 'Resposta incorreta!! :(';
+                clientePontuacao[clientId].pontuacao++;
             }
-            ws.send(JSON.stringify({ correcao, correctIndex, client }));
-            ws.send(JSON.stringify({ pontuacao: clientScores[clientId].pontuacao }));
-            enviaPontucao();
+
+            ws.send(JSON.stringify({ correctIndex, client }));
+            ws.send(JSON.stringify({ pontuacao: clientePontuacao[clientId].pontuacao }));
+            enviaPontuacao();
         } else if (respostaClient.nextQuestion) {
-            sendRandomQuestion();
+            enviarPergunta();
         }
     });
 
     ws.on('close', () => {
-        delete clientScores[clientId];
+        delete clientePontuacao[clientId];
         console.log(`Cliente ${clientId} desconectado`);
-        enviaPontucao();
+        enviaPontuacao();
     });
 
-    function enviaPontucao() {
-        const scores = Object.keys(clientScores).map(clientId => ({
+    function enviaPontuacao() {
+        const scores = Object.keys(clientePontuacao).map(clientId => ({
             clientId,
-            pontuacao: clientScores[clientId].pontuacao
+            pontuacao: clientePontuacao[clientId].pontuacao
         }));
         wss.clients.forEach(client => {
             if (client.readyState === WebSocket.OPEN) {
@@ -93,7 +91,6 @@ wss.on('connection', (ws) => {
     }
 });
 
-const PORT = 3000;
-server.listen(PORT, () => {
-    console.log(`Servidor está ouvindo na porta ${PORT}`);
+server.listen(3000, () => {
+    console.log(`Servidor está ouvindo na porta 3000`);
 });

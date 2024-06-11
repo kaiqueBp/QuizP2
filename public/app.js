@@ -2,23 +2,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const ws = new WebSocket('ws://localhost:3000');
     const perguntas = document.getElementById('perguntas');
     const alternativas = document.getElementById('alternativas');
-    const messagesDiv = document.getElementById('messages');
     const pontuacaoTotal = document.getElementById('pontuação');
-    const scoreTable = document.getElementById('score-table');
-    const userIdElement = document.getElementById('user-id');
-    let currentQuestion = null;
+    const pontuacaoTabela = document.getElementById('score-table');
+    const idCliente = document.getElementById('user-id');
     let pontuacao = 0;
+    let timer = null;
+    let timeTela = 40;
+    let totalPerguntas = 0; 
+    let perguntasRespondidas = 0;
 
     ws.onopen = () => {
         console.log('Conectado ao servidor WebSocket');
         ws.send(JSON.stringify({ requestUserId: true }));
+        iniciarTempo();
     };
 
     ws.onmessage = (event) => {
         const message = JSON.parse(event.data);
         if (message.userId) {
-            userIdElement.textContent = message.userId; 
+            idCliente.textContent = message.userId;
         } else if (message.perguntas) {
+            perguntasRespondidas++;
             perguntas.textContent = message.perguntas;
             alternativas.innerHTML = '';
             message.alternativas.forEach((answer, index) => {
@@ -31,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alternativas.appendChild(answerButton);
             });
             currentQuestion = message;
-        } else if (message.correcao) {
+        } else if (message.correctIndex !== undefined) {
             const answerButtons = document.querySelectorAll('button.answer-button');
             answerButtons.forEach((button, index) => {
                 button.disabled = true;
@@ -42,23 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            const mensagemResposta = document.createElement('p');
-            mensagemResposta.textContent = message.correcao;
-            messagesDiv.appendChild(mensagemResposta);
             setTimeout(() => {
-                messagesDiv.removeChild(mensagemResposta);
-                novaPergunta();
+                if (perguntasRespondidas < totalPerguntas) {
+                    novaPergunta();
+                } else {
+                    pararTempo();
+                    perguntas.textContent = 'Parabéns! Você respondeu todas as perguntas.';
+                }
             }, 2000);
         } else if (message.pontuacao !== undefined) {
             pontuacao = message.pontuacao;
             pontuacaoTotal.textContent = `Pontuação: ${pontuacao}`;
         } else if (message.scores) {
             atualizar(message.scores);
+        } else if (message.totalPerguntas !== undefined) {
+            totalPerguntas = message.totalPerguntas;
         }
     };
 
     ws.onclose = () => {
         console.log('Desconectado do servidor WebSocket');
+        pararTempo();
     };
 
     ws.onerror = (error) => {
@@ -70,7 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function atualizar(scores) {
-        scoreTable.innerHTML = `
+        scores.sort((a, b) => a.clientId - b.clientId);
+        pontuacaoTabela.innerHTML = `
             <table>
                 <thead>
                     <tr>
@@ -88,5 +97,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 </tbody>
             </table>
         `;
+    }
+
+    function iniciarTempo() {
+        clearInterval(timer);
+        timer = setInterval(() => {
+            timeTela--;
+            if (timeTela <= 0) {
+                pararTempo();
+                desativarBotao();
+            }
+            atualizarTempo();
+        }, 1000);
+    }
+
+    function pararTempo() {
+        clearInterval(timer);
+        timeTela = 0;
+        atualizarTempo();
+    }
+
+    function desativarBotao() {
+        const answerButtons = document.querySelectorAll('button.answer-button');
+        answerButtons.forEach(button => {
+            button.disabled = true;
+        });
+        perguntas.textContent = 'Tempo esgotado! Você não pode mais responder.';
+    }
+
+    function atualizarTempo() {
+        document.getElementById('timer').textContent = `Tempo restante: ${timeTela}s`;
     }
 });

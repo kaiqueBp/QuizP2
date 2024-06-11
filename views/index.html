@@ -8,7 +8,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Cliente Websocket</h1>
+        <h1>Quiz sobre Ciência</h1>
+        <h4>10 questões sobre ciência</h4>
         <p>Usuário ID: <span id="user-id"></span></p>
         <div id="question-container">
             <p id="perguntas"></p>
@@ -16,7 +17,10 @@
         </div>
         <div id="messages"></div>
         <p id="pontuação">Pontuação: 0</p>
+        <p id="timer">Tempo restante: 40s</p>
+        <button onclick="window.location.reload();">Resetar Página</button>
         <div id="score-table"></div>
+        
     </div>
     <script src="/public/app.js"></script>
 </body>

@@ -35,8 +35,18 @@
         "resposta": 1
     },
     {
-        "perguntas": "Qual é o principal objetivo científico do James Webb",
+        "perguntas": "Qual é o principal objetivo científico do James Webb?",
         "alternativas": ["Observar planetas do sistema solar", "Investigar buracos negros supermassivos", "Monitorar asteroides próximos à Terra", "Estudar a formação das primeiras galáxias"],
         "resposta": 3
+    },
+    {
+        "perguntas": "O que é um acelerador de partículas?",
+        "alternativas": ["Um dispositivo que diminui a velocidade das partículas subatômicas.", "Um dispositivo que cria partículas subatômicas a partir do vácuo.", "Um dispositivo que acelera partículas subatômicas a velocidades próximas à da luz.", "Um dispositivo que detecta partículas subatômicas em experimentos."],
+        "resposta": 2
+    },
+    {
+        "perguntas": "Qual é a função do campo magnético em um acelerador de partículas?",
+        "alternativas": ["Controlar a trajetória das partículas", "Fornecer energia às partículas", "Criar partículas subatômicas", "Detectar partículas alfa"],
+        "resposta": 0
     }
 ]

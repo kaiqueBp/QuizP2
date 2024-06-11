@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #000000;
     margin: 0;
     padding: 0;
 }
@@ -44,6 +44,17 @@ button.answer-button {
     cursor: pointer;
     transition: background-color 0.3s;
     margin-bottom: 10px;
+}
+button{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+    position: relative;
 }
 
 button.answer-button:hover {
